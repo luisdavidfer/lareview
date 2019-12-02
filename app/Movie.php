@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class Movie extends Model
 {
     protected $fillable = [
-        'title', 'year', 'rating', 'filepath', 'filename', 'external_url'
+        'title', 'year', 'rating', 'synopsis', 'filepath', 'filename', 'external_url'
     ];
 
     // Returns genres objects list
@@ -33,4 +35,29 @@ class Movie extends Model
         }
         return $list;
     }
+
+    // Returns related movies list. Param n = number of related movies
+    public function related($n){
+        $related = array();
+        if(count($this->genres) > 0){
+            // Query building
+            $sql = "SELECT DISTINCT movies.* FROM movies INNER JOIN genres_movies ON movies.id = genres_movies.movie_id WHERE NOT movies.id = ".$this->id." AND (";
+            $i = 0;
+            // Query where clauses method
+            $genres = $this->indexesList("genres");
+            foreach ($genres as $id) {
+                if ($i == 0) {
+                    $sql .= "genres_movies.genre_id = $id";
+                }else{
+                    $sql .= " OR genres_movies.genre_id = $id";
+                }
+                $i++;
+            }
+            // Query random order and limit to n parameter
+            $sql .= ") ORDER BY RAND() LIMIT $n;";
+            $related = DB::select(DB::raw($sql));
+        }
+        return $related;
+    }
+
 }

@@ -1,65 +1,54 @@
 @extends('layouts/master')
 
-@isset($usersList)
-    @section('title', 'Users')
-    @section('header', 'Users list')
-@else
-    @section('title', 'User')
-    @section('header', 'User')
-@endisset
+@section('title', 'La review - Usuarios')
 
 @section('content')
-<table style="width:100%;border:1px solid black;text-align:center">
-        <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Contraseña</th>
-        </tr>
-        @isset($usersList)
-            @foreach ($usersList as $user)
-                <tr>
-                    <td>{{$user->id}}</td>
-                    <td>{{$user->name}}</td>
-                    <td>{{$user->email}}</td>
-                    <td>{{$user->password}}</td>
-                    <td>
-                        <form action = "{{route('user.edit', $user->id)}}" method="GET">
-                            @csrf
-                            <input type="submit" value="Modificar">
-                        </form>
-                    </td>
-                    <td>
-                            <form action = "{{route('user.destroy', $user->id)}}" method="POST">
-                                @csrf
-                                @method("DELETE")
-                                <input type="submit" value="Borrar">
-                            </form>
-                    </td>
-                </tr>
-            @endforeach
-            </table>
-            <button onclick="location.href='{{route('user.create')}}'">Nuevo usuario</button>
-        @else
-                <tr>
-                    <td>{{$usr->id}}</td>
-                    <td>{{$usr->name}}</td>
-                    <td>{{$usr->email}}</td>
-                    <td>{{$usr->password}}</td>
-                    <td>
-                            <form action = "{{route('user.edit', $usr->id)}}" method="GET">
-                                @csrf
-                                <input type="submit" value="Modificar">
-                            </form>
-                        </td>
-                        <td>
-                                <form action = "{{route('user.destroy', $usr->id)}}" method="POST">
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Contraseña</th>
+                        <th colspan="2"><button title="Añdir" class="btn btn-primary p-2" onclick="location.href='{{route('user.create')}}'"><i class="lni-plus"></i></button></th>
+                    </tr>
+                    @foreach ($usersList as $user)
+                        @if($user->id == $authId)
+                            <tr class="text-primary"> 
+                        @else
+                            <tr>
+                        @endif
+                            <td>{{$user->id}}</td>
+                            <td>{{$user->name}}</td>
+                            <td>{{$user->email}}</td>
+                            <td>{{$user->password}}</td>
+                            <td>
+                                <form action = "{{route('user.edit', $user->id)}}" method="GET">
+                                    @csrf
+                                    <button title="Modificar" type="submit" class="my-auto p-2 btn btn-success"><i class="lni-pencil"></i></button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action = "{{route('user.destroy', $user->id)}}" method="POST">
                                     @csrf
                                     @method("DELETE")
-                                    <input type="submit" value="Borrar">
+                                    <button onclick="return confirm('¿Estás seguro de eliminar al usuario {{$user->name}}?')" title="Eliminar" type="submit" class="my-auto p-2 btn btn-warning"><i class="lni-trash"></i></button>
                                 </form>
-                        </td>
-                </tr>
-            </table>
-        @endisset
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div> 
+        </div> 
+    </div>
+</div>
+     
+ <!-- DEPURACIÓN -->
+
+
 @endsection

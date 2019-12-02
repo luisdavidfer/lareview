@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Genre;
+use Illuminate\Support\Facades\DB;
 
 class GenreController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except('show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -52,8 +59,9 @@ class GenreController extends Controller
      */
     public function show($id)
     {
-        $genre = Genre::find($id);
-        return view('genre.list', ['genre'=>$genre]);
+        $genresList = Genre::all()->sortBy('description');
+        $movies = DB::select(DB::raw("SELECT DISTINCT movies.* FROM movies INNER JOIN genres_movies ON movies.id = genres_movies.movie_id WHERE genres_movies.genre_id = $id ORDER BY movies.year DESC"));
+        return view('movie.home', ['moviesList'=>$movies, 'genresList'=>$genresList]);
     }
 
     /**
@@ -64,7 +72,7 @@ class GenreController extends Controller
      */
     public function edit($id)
     {
-        $data["genre"] = Genre::find($id);
+        $data["genre"] = Genre::findOrFail($id);
         return view('genre.form', $data);
     }
 
@@ -77,10 +85,12 @@ class GenreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'description' => 'required|unique:genres,description|max:255'
-        ]);
-        $genre = Genre::find($id);
+        $genre = Genre::findOrFail($id);
+        if($genre->description != $request->description){
+            $request->validate([
+                'description' => 'required|unique:genres,description|max:255'
+            ]);
+        }
         $genre->fill($request->all());
         $genre->save();
         return redirect()->route('genre.index');
@@ -94,7 +104,7 @@ class GenreController extends Controller
      */
     public function destroy($id)
     {
-        $genre = Genre::find($id);
+        $genre = Genre::findOrFail($id);
         $genre->delete();
         return redirect()->route('genre.index');
     }

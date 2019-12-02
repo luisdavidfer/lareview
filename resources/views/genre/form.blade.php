@@ -1,15 +1,15 @@
 @extends('layouts.master')
 
 @isset($genre)
-    @section('title', 'Update')
-    @section('header', 'Update')
+    @section('title', 'La review - Modificar género')
 @else
-    @section('title', 'Insert')
-    @section('header', 'Insert')
+    @section('title', 'La review - Añadir género')
 @endisset
 
 @section('content')
 
+    <div class="container text-center col-12 col-sm-10 col-md-6 my-5">
+    
     @isset($genre)
         <form method="post" action="{{route('genre.update',['genre'=>$genre->id])}}">
                 @method("PUT")
@@ -19,8 +19,13 @@
 
             @csrf
 
-            Descripción:<br><input type="text" name="description" value="{{$genre->description ?? ''}}">@error('description') {{$message}} @enderror<br>
+            Descripción
+            <input class="my-3 form-control" required type="text" name="description" value="{{$genre->description ?? ''}}">
+            <div class="text-danger my-3">@error('description') {{$message}} @enderror</div>
             
-            <input type="submit">
+            <input class="btn btn-primary" value="Guardar" type="submit">
         </form>
+    
+    </div>
+
 @endsection

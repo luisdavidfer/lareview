@@ -1,14 +1,14 @@
 @extends('layouts.master')
 
 @isset($person)
-    @section('title', 'Update')
-    @section('header', 'Update Person')
+    @section('title', 'La review - Modificar persona')
 @else
-    @section('title', 'Insert')
-    @section('header', 'Insert Person')
+    @section('title', 'La review - Añadir persona')
 @endisset
 
 @section('content')
+
+    <div class="container text-center col-12 col-sm-10 col-md-6 my-5">
 
     @isset($person)
         <form enctype="multipart/form-data" method="post" action="{{route('person.update',['person'=>$person->id])}}">
@@ -19,14 +19,17 @@
 
             @csrf
 
-            Nombre completo:<br><input type="text" name="name" value="{{$person->name ?? ''}}">
-            @error('name') {{$message}} @enderror<br>
-            Fotografía:<br><input type="file" name="photo">
-            @error('photo') {{$message}} @enderror<br><br>
-            Ruta externa (metadatos):<br><input type="text" name="external_url" value="{{$person->external_url ?? ''}}">
-            @error('external_url') {{$message}} @enderror<br>
-            Actúa en:<br>
-            <select name="act[]" multiple>
+            Nombre completo
+            <input class="my-3 form-control" type="text" required name="name" value="{{$person->name ?? ''}}">
+            <div class="text-danger my-3">@error('name') {{$message}} @enderror</div>
+            Fotografía
+            <input class="my-3 form-control" type="file" name="photo">
+            <div class="text-danger my-3">@error('photo') {{$message}} @enderror</div>
+            Ruta externa
+            <input class="my-3 form-control" required type="text" name="external_url" value="{{$person->external_url ?? ''}}">
+            <div class="text-danger my-3">@error('external_url') {{$message}} @enderror</div>
+            Actúa en
+            <select class="my-3 form-control" name="act[]" multiple>
                 @foreach ($movies as $movie)
                     <option value="{{$movie->id}}"
                         @isset($person)
@@ -37,8 +40,8 @@
                     >{{$movie->title}}</option> 
                 @endforeach
             </select><br>
-            Ha dirijido:<br>
-            <select name="direct[]" multiple>
+            Ha dirigido
+            <select class="my-3 form-control" name="direct[]" multiple>
                 @foreach ($movies as $movie)
                     <option value="{{$movie->id}}"
                         @isset($person)
@@ -49,7 +52,9 @@
                     >{{$movie->title}}</option> 
                 @endforeach
             </select><br>
+            
+            <input  class="btn btn-primary" value="Guardar" type="submit">
 
-            <input type="submit">
         </form>
+    </div>
 @endsection

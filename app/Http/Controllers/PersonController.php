@@ -9,6 +9,12 @@ use App\Movie;
 
 class PersonController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except('show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -43,7 +49,7 @@ class PersonController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'photo' => 'image|mimes:jpeg,jpg,png,gif,svg',
-            'external_url' => 'url|max:255',
+            'external_url' => 'url',
             'act' => 'array',
             'direct' => 'array'
         ]);
@@ -67,8 +73,8 @@ class PersonController extends Controller
      */
     public function show($id)
     {
-        $person = Person::find($id);
-        return view('person.list',['person'=>$person]);
+        $person = Person::findOrFail($id);
+        return view('person.show',['person'=>$person]);
     }
 
     /**
@@ -79,7 +85,7 @@ class PersonController extends Controller
      */
     public function edit($id)
     {
-        $data['person'] = Person::find($id);
+        $data['person'] = Person::findOrFail($id);
         $data['movies'] = Movie::all();
         return view('person.form', $data);
     }
@@ -97,12 +103,12 @@ class PersonController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'photo' => 'image|mimes:jpeg,jpg,png,gif,svg',
-            'external_url' => 'url|max:255',
+            'external_url' => 'url',
             'act' => 'array',
             'direct' => 'array'
         ]);
 
-        $person = Person::find($id);
+        $person = Person::findOrFail($id);
         $person->fill($request->all());
         if($request->hasFile('photo')){
             File::delete(public_path('/photos/'.$person->photo));
@@ -124,7 +130,7 @@ class PersonController extends Controller
      */
     public function destroy($id)
     {
-        $person = Person::find($id);
+        $person = Person::findOrFail($id);
         File::delete(public_path('/photos/'.$person->photo));
         $person->act()->detach();
         $person->direct()->detach();

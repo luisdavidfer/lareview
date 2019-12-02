@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\DB;
 
 use App\Movie;
 use App\Genre;
@@ -12,6 +12,24 @@ use App\Person;
 
 class MovieController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except('home','show','search');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function home()
+    {
+        $movies = Movie::all()->sortByDesc('year');
+        $genres = Genre::all()->sortBy('description');
+        return view('movie.home', ['moviesList'=>$movies,'genresList'=>$genres]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +38,8 @@ class MovieController extends Controller
     public function index()
     {
         $movies = Movie::all();
-        return view('movie.list', ['moviesList'=>$movies]);
+        $genres = Genre::all();
+        return view('movie.list', ['moviesList'=>$movies,'genresList'=>$genres]);
     }
 
     /**
@@ -43,23 +62,13 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        /*
-        $movie->title = $request->title;
-        $movie->rating = $request->rating;
-        $movie->year = $request->year;
-        $movie->filename = $request->filename;
-        $movie->filepath = $request->filepath;
-        $movie->external_url = $request->external_url;
-        $movie->update();
-        */
-
         $request->validate([
             'title' => 'required|max:255',
+            'synopsis' => 'required|max:1024',
             'year' => 'required|digits:4',
             'rating' => 'required|digits_between:1,10',
             'cover' => 'image|mimes:jpeg,jpg,png,gif,svg',
-            'external_url' => 'url|max:255',
-            'filepath' => 'required|max:255',
+            'external_url' => 'url',
             'filename' => 'required|max:255',
             'actors' => 'array',
             'directors' => 'array',
@@ -67,7 +76,8 @@ class MovieController extends Controller
         ]);
 
         $movie = new Movie($request->all());
-        
+        $movie->filepath='/public/movies/';
+
         // cover
         if($request->hasFile('cover')){
             $request->file('cover')->move('covers', $request->file('cover')->getClientOriginalName());
@@ -89,8 +99,8 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        $movie = Movie::find($id);
-        return view('movie.list', ['movie'=>$movie]);
+        $movie = Movie::findOrFail($id);
+        return view('movie.show', ['movie'=>$movie]);
     }
 
     /**
@@ -101,7 +111,7 @@ class MovieController extends Controller
      */
     public function edit($id)
     {
-        $data["movie"] = Movie::find($id);
+        $data["movie"] = Movie::findOrFail($id);
         $data['genres'] = Genre::all();
         $data['people'] = Person::all();
         return view('movie.form', $data);
@@ -119,18 +129,18 @@ class MovieController extends Controller
 
         $request->validate([
             'title' => 'required|max:255',
+            'synopsis' => 'required|max:1024',
             'year' => 'required|digits:4',
             'rating' => 'required|digits_between:1,10',
             'cover' => 'image|mimes:jpeg,jpg,png,gif,svg',
-            'external_url' => 'url|max:255',
-            'filepath' => 'required|max:255',
+            'external_url' => 'url',
             'filename' => 'required|max:255',
             'actors' => 'array',
             'directors' => 'array',
             'genres' => 'array'
         ]);
 
-        $movie = Movie::find($id);
+        $movie = Movie::findOrFail($id);
         $movie->fill($request->all());
 
         // cover
@@ -155,9 +165,9 @@ class MovieController extends Controller
      */
     public function destroy($id)
     {
-        $movie = Movie::find($id);
+        $movie = Movie::findOrFail($id);
         File::delete(public_path('/covers/'.$movie->cover));
-        
+        File::delete(public_path('/movies/'.$movie->filename));
         $movie->genres()->detach();
         $movie->actors()->detach();
         $movie->directors()->detach();
@@ -165,4 +175,12 @@ class MovieController extends Controller
         
         return redirect()->route('movie.index');
     }
+    public function search(Request $request){
+        $search = $request->search;
+        $genresList = Genre::all()->sortBy('description');;
+        $movies = DB::select(DB::raw("SELECT DISTINCT movies.* FROM movies WHERE title LIKE '%$search%' OR synopsis LIKE '%$search%' OR year LIKE '%$search%' ORDER BY movies.year DESC;"));
+        return view('movie.home', ['moviesList'=>$movies, 'genresList'=>$genresList]);
+    
+    }
 }
+

@@ -1,31 +1,37 @@
 @extends('layouts.master')
 
 @isset($user)
-    @section('title', 'Update')
-    @section('header', 'Update')
+    @section('title', 'La review - Modificar usuario')
 @else
-    @section('title', 'Insert')
-    @section('header', 'Insert')
+    @section('title', 'La review - Añadir usuario')
 @endisset
 
 @section('content')
 
+    <div class="container text-center col-12 col-sm-10 col-md-6 my-5">
+
     @isset($user)
-        <form method="post" action="{{route('user.update',['id'=>$user->id])}}">
+
+        <form method="post" enctype="multipart/form-data" action="{{route('user.update',['user'=>$user->id])}}">
             @method("PUT")
     @else
-        <form method="post" action="{{route('user.store')}}">
+        <form method="post" enctype="multipart/form-data" action="{{route('user.store')}}">
     @endisset
 
             @csrf
 
-            Name:<br><input type="text" name="name" value="{{$user->name ?? ''}}">
-            @error('name') {{$message}} @enderror<br>
-            Email:<br><input type="email" name="email" value="{{$user->email ?? ''}}">
-            @error('email') {{$message}} @enderror<br>
-            Password:<br><input type="password" name="password" value="{{$user->password ?? ''}}">
-            @error('password') {{$message}} @enderror<br><br>
+            Nombre
+            <input class="my-3 form-control" required type="text" name="name" value="{{$user->name ?? ''}}">
+            <div class="text-danger my-3">@error('name') {{$message}} @enderror</div>
+            Correo electrónico
+            <input class="my-3 form-control" required type="email" name="email" value="{{$user->email ?? ''}}">
+            <div class="text-danger my-3">@error('email') {{$message}} @enderror</div>
+            Contraseña
+            <input class="my-3 form-control" required type="password" name="password" value="{{$user->password ?? ''}}">
+            <div class="text-danger my-3">@error('password') {{$message}} @enderror</div>
 
-            <input type="submit">
+            <input  class="btn btn-primary" value="Guardar" type="submit">
         </form>
+
+    </div>
 @endsection
