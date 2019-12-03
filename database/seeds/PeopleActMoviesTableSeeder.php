@@ -57,6 +57,126 @@ class PeopleActMoviesTableSeeder extends Seeder
         DB::table('people_act_movies')->insert([
             'person_id' => '2',
             'movie_id' => '2',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '7',
+            'movie_id' => '6',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '8',
+            'movie_id' => '6',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '3',
+            'movie_id' => '6',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '2',
+            'movie_id' => '7',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '13',
+            'movie_id' => '7',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '14',
+            'movie_id' => '12',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '14',
+            'movie_id' => '8',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '17',
+            'movie_id' => '8',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '21',
+            'movie_id' => '9',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '14',
+            'movie_id' => '9',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '10',
+            'movie_id' => '9',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '18',
+            'movie_id' => '10',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '19',
+            'movie_id' => '11',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '20',
+            'movie_id' => '11',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '21',
+            'movie_id' => '11',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '22',
+            'movie_id' => '12',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '20',
+            'movie_id' => '12',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '17',
+            'movie_id' => '13',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '16',
+            'movie_id' => '14',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '19',
+            'movie_id' => '14',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '20',
+            'movie_id' => '16',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '21',
+            'movie_id' => '15',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '22',
+            'movie_id' => '15',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '3',
+            'movie_id' => '15',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '5',
+            'movie_id' => '17',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '6',
+            'movie_id' => '17',
+            ]);             
+        DB::table('people_act_movies')->insert([
+            'person_id' => '15',
+            'movie_id' => '16',
+            ]);              
+        DB::table('people_act_movies')->insert([
+            'person_id' => '1',
+            'movie_id' => '16',
+            ]);              
+        DB::table('people_act_movies')->insert([
+            'person_id' => '4',
+            'movie_id' => '18',
+            ]);              
+        DB::table('people_act_movies')->insert([
+            'person_id' => '8',
+            'movie_id' => '18',
             ]);              
     }
 }

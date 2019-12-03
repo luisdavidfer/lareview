@@ -31,4 +31,5 @@ Route::resource('genre', 'GenreController');
 // People REST
 Route::resource('person', 'PersonController');
 
+// Authentication system routes
 Auth::routes();

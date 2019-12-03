@@ -12,14 +12,16 @@ use App\Person;
 
 class MovieController extends Controller
 {
-
+    /**
+     * Controller constructor to instance middleware
+     */
     public function __construct()
     {
         $this->middleware('auth')->except('home','show','search');
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource to be viewed by the guest.
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,7 +33,7 @@ class MovieController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource to manage them.
      *
      * @return \Illuminate\Http\Response
      */
@@ -62,6 +64,8 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
+        
+        // form validation
         $request->validate([
             'title' => 'required|max:255',
             'synopsis' => 'required|max:1024',
@@ -78,7 +82,10 @@ class MovieController extends Controller
         $movie = new Movie($request->all());
         $movie->filepath='/public/movies/';
 
-        // cover
+        /**
+         * If request has got an image It will be moved to 
+         * covers in public folder and store image name in DB
+         */
         if($request->hasFile('cover')){
             $request->file('cover')->move('covers', $request->file('cover')->getClientOriginalName());
             $movie->cover = $request->file('cover')->getClientOriginalName();
@@ -126,7 +133,7 @@ class MovieController extends Controller
      */
     public function update($id, Request $request)
     {
-
+        // form validation
         $request->validate([
             'title' => 'required|max:255',
             'synopsis' => 'required|max:1024',
@@ -143,7 +150,11 @@ class MovieController extends Controller
         $movie = Movie::findOrFail($id);
         $movie->fill($request->all());
 
-        // cover
+        /**
+         * If request has got an image last image will be removed 
+         * and the new one will be moved to covers in public folder 
+         * and store image name in DB
+         */
         if($request->hasFile('cover')){
             File::delete(public_path('/covers/'.$movie->cover));
             $request->file('cover')->move('covers', $request->file('cover')->getClientOriginalName());
@@ -175,6 +186,11 @@ class MovieController extends Controller
         
         return redirect()->route('movie.index');
     }
+
+    /**
+     * Search movies by columns title, synopsis and year
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function search(Request $request){
         $search = $request->search;
         $genresList = Genre::all()->sortBy('description');;

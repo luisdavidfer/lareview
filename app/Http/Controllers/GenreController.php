@@ -9,13 +9,16 @@ use Illuminate\Support\Facades\DB;
 class GenreController extends Controller
 {
 
+    /**
+     * Controller constructor to instance middleware
+     */
     public function __construct()
     {
         $this->middleware('auth')->except('show');
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource to manage them.
      *
      * @return \Illuminate\Http\Response
      */
@@ -43,6 +46,7 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
+        // form validation
         $request->validate([
             'description' => 'required|unique:genres,description|max:255'
         ]);
@@ -52,7 +56,7 @@ class GenreController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the movies of the specified genre.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -86,6 +90,7 @@ class GenreController extends Controller
     public function update(Request $request, $id)
     {
         $genre = Genre::findOrFail($id);
+        // form validation
         if($genre->description != $request->description){
             $request->validate([
                 'description' => 'required|unique:genres,description|max:255'

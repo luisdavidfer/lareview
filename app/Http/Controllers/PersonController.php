@@ -10,6 +10,9 @@ use App\Movie;
 class PersonController extends Controller
 {
 
+    /**
+     * Controller constructor to instance middleware
+     */
     public function __construct()
     {
         $this->middleware('auth')->except('show');
@@ -46,6 +49,7 @@ class PersonController extends Controller
     public function store(Request $request)
     {
 
+        // form validation
         $request->validate([
             'name' => 'required|max:255',
             'photo' => 'image|mimes:jpeg,jpg,png,gif,svg',
@@ -55,6 +59,11 @@ class PersonController extends Controller
         ]);
 
         $person = new Person($request->all());
+
+        /**
+         * If request has got an image It will be moved to 
+         * covers in public folder and store image name in DB
+         */
         if($request->hasFile('photo')){
             $request->file('photo')->move('photos', $request->file('photo')->getClientOriginalName());
             $person->photo = $request->file('photo')->getClientOriginalName();
@@ -110,6 +119,12 @@ class PersonController extends Controller
 
         $person = Person::findOrFail($id);
         $person->fill($request->all());
+        
+        /**
+         * If request has got an image last image will be removed 
+         * and the new one will be moved to covers in public folder 
+         * and store image name in DB
+         */
         if($request->hasFile('photo')){
             File::delete(public_path('/photos/'.$person->photo));
             $request->file('photo')->move('photos', $request->file('photo')->getClientOriginalName());
