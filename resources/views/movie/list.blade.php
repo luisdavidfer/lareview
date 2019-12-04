@@ -1,15 +1,18 @@
 @extends('layouts/master')
 
+<!-- Title -->
 @section('title', 'La review - Películas')
 
-
+<!-- Content -->
 @section('content')
 
 <div class="container-fluid">
         <div class="row">
             <div class="col-12">
+                <!-- Table -->
                 <div class="table-responsive">
                     <table class="table">
+                        <!-- Table header -->
                         <tr>
                             <th>Id</th>
                             <th>Título</th>
@@ -24,6 +27,7 @@
                             <th>Ruta externa</th>
                             <th colspan="2"><button title="Añadir" class="btn btn-primary p-2" onclick="location.href='{{route('movie.create')}}'"><i class="lni-plus"></i></button></th>
                         </tr>
+                        <!-- Table data -->
                         @foreach ($moviesList as $movie)
                             <tr>
                                 <td>{{$movie->id}}</td>
@@ -49,12 +53,14 @@
                                 <td>{{$movie->filepath}}</td>
                                 <td>{{$movie->filename}}</td>
                                 <td><a href="{{$movie->external_url}}">{{$movie->external_url}}</a></td>
+                                <!-- Modification button -->
                                 <td>
                                     <form action = "{{route('movie.edit', $movie->id)}}" method="GET">
                                         @csrf
                                         <button title="Modificar" type="submit" class="my-auto p-2 btn btn-success"><i class="lni-pencil"></i></button>
                                     </form>
                                 </td>
+                                <!-- Delete button -->
                                 <td>
                                     <form action = "{{route('movie.destroy', $movie->id)}}" method="POST">
                                         @csrf
@@ -66,11 +72,11 @@
                         @endforeach
                     </table>
                 </div>
+            <!-- Table -->
             </div> 
         </div>
 </div>
 
-
-
-
 @endsection
+
+<!-- Content -->

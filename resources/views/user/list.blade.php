@@ -1,13 +1,15 @@
 @extends('layouts/master')
 
+<!-- Title -->
 @section('title', 'La review - Usuarios')
 
+<!-- Content -->
 @section('content')
-
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
+            <!-- Table header -->
             <div class="table-responsive">
                 <table class="table">
                     <tr>
@@ -17,6 +19,7 @@
                         <th>Contraseña</th>
                         <th colspan="2"><button title="Añdir" class="btn btn-primary p-2" onclick="location.href='{{route('user.create')}}'"><i class="lni-plus"></i></button></th>
                     </tr>
+                    <!-- Table data -->
                     @foreach ($usersList as $user)
                         @if($user->id == $authId)
                             <tr class="text-primary"> 
@@ -27,12 +30,14 @@
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->password}}</td>
+                            <!-- Modification button -->
                             <td>
                                 <form action = "{{route('user.edit', $user->id)}}" method="GET">
                                     @csrf
                                     <button title="Modificar" type="submit" class="my-auto p-2 btn btn-success"><i class="lni-pencil"></i></button>
                                 </form>
                             </td>
+                            <!-- Delete button -->
                             <td>
                                 <form action = "{{route('user.destroy', $user->id)}}" method="POST">
                                     @csrf
@@ -44,11 +49,10 @@
                     @endforeach
                 </table>
             </div> 
+        <!-- Table -->
         </div> 
     </div>
 </div>
-     
- <!-- DEPURACIÓN -->
-
 
 @endsection
+<!-- Content -->

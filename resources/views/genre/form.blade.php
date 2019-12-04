@@ -1,15 +1,18 @@
 @extends('layouts.master')
 
+<!-- Title -->
 @isset($genre)
     @section('title', 'La review - Modificar género')
 @else
     @section('title', 'La review - Añadir género')
 @endisset
+<!-- Title -->
 
+<!-- Content -->
 @section('content')
 
     <div class="container text-center col-12 col-sm-10 col-md-6 my-5">
-    
+    <!-- Form -->
     @isset($genre)
         <form method="post" action="{{route('genre.update',['genre'=>$genre->id])}}">
                 @method("PUT")
@@ -25,7 +28,8 @@
             
             <input class="btn btn-primary" value="Guardar" type="submit">
         </form>
-    
+    <!-- Form -->
     </div>
 
 @endsection
+<!-- Content -->

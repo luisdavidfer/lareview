@@ -1,16 +1,19 @@
 @extends('layouts.master')
 
+<!-- Title -->
 @isset($movie)
     @section('title', 'La review - Modificar película')
 @else
     @section('title', 'La review - Añadir película')
 @endisset
+<!-- Title -->
 
+<!-- Content -->
 @section('content')
 
     <div class="container text-center col-12 col-sm-10 col-md-6 my-5">
 
-
+    <!-- Form -->
     @isset($movie)
         <form enctype="multipart/form-data" method="post" action="{{route('movie.update',['movie'=>$movie->id])}}">
                 @method("PUT")
@@ -81,5 +84,7 @@
             <input  class="btn btn-primary" value="Guardar" type="submit">
 
         </form>
+    <!-- Form -->
     </div>
 @endsection
+<!-- Content -->

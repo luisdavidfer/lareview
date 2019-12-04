@@ -2,14 +2,14 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+      
         <!--CDN-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
         <link href="https://cdn.lineicons.com/1.0.1/LineIcons.min.css" rel="stylesheet">
         <!--CDN-->
 
         <title>@yield('title')</title>
-        <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico'>
+        <link rel='shortcut icon' type='image/x-icon' href="{{url('/favicon.ico')}}">
     </head>
     <body>
         <!--Navbar-->
@@ -27,7 +27,7 @@
         <!-- Collapsible content -->
         <div class="collapse navbar-collapse justify-content-between" id="basicExampleNav">
       
-            <form action="/search" method="get" class="form-inline w-50 my-auto">
+            <form action="{{url('/search')}}" method="get" class="form-inline w-50 my-auto">
                 <div class="input-group md-form w-100">
                     <input class="form-control w-100"  type="search" name="search" placeholder="Buscar" aria-label="Buscar">
                     <div class="input-group-append"><button class="btn bg-white" type="submit"><i class="text-primary lni-search"></i></button></div>
@@ -89,9 +89,9 @@
         </div>
         <!-- Copyright -->
       </footer>
-      <!-- Footer -->
+    <!-- Footer -->
       
-      <!-- Modal -->
+      <!-- Login modal -->
         <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -123,7 +123,7 @@
                 </div>
             </div>
         </div>
-      <!-- Modal -->
+      <!-- Login modal -->
     
     </body>
 

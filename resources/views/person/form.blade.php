@@ -1,15 +1,18 @@
 @extends('layouts.master')
 
+<!-- Title -->
 @isset($person)
     @section('title', 'La review - Modificar persona')
 @else
     @section('title', 'La review - Añadir persona')
 @endisset
+<!-- Title -->
 
+<!-- Content -->
 @section('content')
 
     <div class="container text-center col-12 col-sm-10 col-md-6 my-5">
-
+    <!-- Form -->
     @isset($person)
         <form enctype="multipart/form-data" method="post" action="{{route('person.update',['person'=>$person->id])}}">
                 @method("PUT")
@@ -56,5 +59,7 @@
             <input  class="btn btn-primary" value="Guardar" type="submit">
 
         </form>
+    <!-- Form -->
     </div>
 @endsection
+<!-- Content -->

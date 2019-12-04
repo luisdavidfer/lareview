@@ -1,14 +1,17 @@
+<!-- Title -->
 <?php if(isset($movie)): ?>
     <?php $__env->startSection('title', 'La review - Modificar película'); ?>
 <?php else: ?>
     <?php $__env->startSection('title', 'La review - Añadir película'); ?>
 <?php endif; ?>
+<!-- Title -->
 
+<!-- Content -->
 <?php $__env->startSection('content'); ?>
 
     <div class="container text-center col-12 col-sm-10 col-md-6 my-5">
 
-
+    <!-- Form -->
     <?php if(isset($movie)): ?>
         <form enctype="multipart/form-data" method="post" action="<?php echo e(route('movie.update',['movie'=>$movie->id])); ?>">
                 <?php echo method_field("PUT"); ?>
@@ -128,7 +131,8 @@ unset($__errorArgs, $__bag); ?></div>
             <input  class="btn btn-primary" value="Guardar" type="submit">
 
         </form>
+    <!-- Form -->
     </div>
 <?php $__env->stopSection(); ?>
-
+<!-- Content -->
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /app/resources/views/movie/form.blade.php ENDPATH**/ ?>

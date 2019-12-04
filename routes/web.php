@@ -14,7 +14,7 @@
 use Illuminate\Support\Facades\App;
 
 // Guest home
-Route::get('/', 'MovieController@home')->name('user.home');
+Route::get('/', 'MovieController@home')->name('movie.home');
 
 // Search path
 Route::get('/search', 'MovieController@search')->name('user.search');

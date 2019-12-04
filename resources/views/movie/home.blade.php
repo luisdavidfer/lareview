@@ -1,10 +1,12 @@
 @extends('layouts/master')
 
+<!-- Title -->
 @section('title', 'La review - Películas')
 
-
+<!-- Content -->
 @section('content')
 <div class="container-fluid">
+    <!-- Genres -->
     <ul class="nav nav-fill pt-3">
         <li class="nav-item">
         <a class="nav-link" href="{{url("")}}">Todas</a>
@@ -15,6 +17,7 @@
             </li>
         @endforeach
     </ul>
+    <!-- Movies -->
     <div class="row align-items-left">
         @foreach ($moviesList as $movie)
         <div class="col-xl-2 col-lg-3 col-md-3 col-sm-6 col-12 my-3">
